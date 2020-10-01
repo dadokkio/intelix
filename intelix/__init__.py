@@ -33,9 +33,11 @@ class client:
             self.correlationId = response.get('correlationId')
             self.requestId = response.get('requestId')
             self.ttl = response.get('ttl')
-            self.reputationScore = response.get('reputationScore')
+            self.reputationScore = response.get('reputationScore', None)
             #use the reputation score to determine the classification of the file based off the bands provided in the API docs
-            if (self.reputationScore <= 19):
+            if not self.reputationScore:
+                self.classification = "Unknown"
+            elif (self.reputationScore <= 19):
                 self.classification = "Malware"
             elif (self.reputationScore > 19 and self.reputationScore <= 29):
                 self.classification = "PUA"
